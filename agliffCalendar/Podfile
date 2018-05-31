@@ -1,0 +1,157 @@
+//
+//  ViewControllerTableViewCell.swift
+//  agliffCalendar
+//
+//  Created by Ryan Hill on 2/7/18.
+//  Copyright © 2018 Ryan Hill. All rights reserved.
+//
+
+import UIKit
+
+class ViewControllerTableViewCell: UITableViewCell {
+    
+    @IBOutlet weak var myImage: UIImageView!
+    @IBOutlet weak var myLabel: UILabel!
+    
+    
+    
+
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        // Initialization code
+    }
+
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        super.setSelected(selected, animated: animated)
+
+        // Configure the view for the selected state
+    }
+
+}
+
+
+
+
+//
+//  MovieScheduleViewController.swift
+//  agliffCalendar
+//
+//  Created by Ryan Hill on 1/4/18.
+//  Copyright © 2018 Ryan Hill. All rights reserved.
+//
+
+import UIKit
+
+class MovieScheduleViewController: UIViewController, UITableViewDataSource, UITableViewDelegate {
+    
+    let posters = ["latterDaysPoster", "EvokePoster", "MidnightPoster", "TheTripPoster", "YossiPoster"]
+    
+    //Number of cells in the TableView
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int
+    {
+        return (posters.count)
+    }
+    
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell
+    {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! ViewControllerTableViewCell
+        
+        cell.myImage.image = UIImage(named: (posters[indexPath.row] + ".jpg"))
+        cell.myLabel.text = posters[indexPath.row]
+        
+        return (cell)
+    }
+    
+
+    //
+//  venueViewController.swift
+//  agliffCalendar
+//
+//  Created by Ryan Hill on 1/4/18.
+//  Copyright © 2018 Ryan Hill. All rights reserved.
+//
+
+import UIKit
+import MapKit
+import CoreLocation
+
+class VenueViewController: UIViewController {
+
+    
+    
+    //Alamo SL drafthouse coordinates
+    let latitude:CLLocationDegrees = 30.2557
+    let longitude:CLLocationDegrees = -97.7636
+    
+    @IBAction func alamoDirectionsLink(_ sender: Any) {
+        
+        //Defining destination
+        let latitude:CLLocationDegrees = 30.2560786
+        let longitude:CLLocationDegrees = -97.7635091
+        
+        // Setting position on map
+        let regionDistance:CLLocationDistance = 1000;
+        let coordinates = CLLocationCoordinate2DMake(latitude, longitude)
+        let regionSpan = MKCoordinateRegionMakeWithDistance(coordinates, regionDistance, regionDistance)
+        
+        //center map with span
+        let options = [MKLaunchOptionsMapCenterKey: NSValue(mkCoordinate: regionSpan.center), MKLaunchOptionsMapSpanKey: NSValue(mkCoordinateSpan: regionSpan.span)]
+        
+        //center on marker with custom name while opening the default map
+        let placemark = MKPlacemark(coordinate: coordinates)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = "Alamo Drafthouse Cinema South Lamar"
+        mapItem.openInMaps(launchOptions: options)
+    }
+    
+
+    
+    //Init mapview
+    
+    @IBOutlet weak var alamoMap: MKMapView!
+
+    //Load postition on mapView
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        let location = CLLocationCoordinate2DMake(latitude, longitude)
+        
+        let span = MKCoordinateSpanMake(0.052, 0.052)
+        let region = MKCoordinateRegion(center: location, span: span)
+        
+        alamoMap.setRegion(region, animated: true)
+        
+        let annotation = MKPointAnnotation()
+        annotation.coordinate = CLLocationCoordinate2DMake(latitude, longitude)
+        annotation.title = "Alamo Drafthouse Cinema"
+        
+        alamoMap.addAnnotation(annotation)
+        
+        
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
+    }
+
+
+}
+
+    
+    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+     
+    }
+
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+       
+    }
+
+
+}
